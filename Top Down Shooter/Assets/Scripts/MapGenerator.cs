@@ -40,16 +40,6 @@ public class MapGenerator : MonoBehaviour
             GameObject o = new GameObject(layer.name);
             o.transform.SetParent(transform, false);
 
-            o.AddComponent<RectTransform>();
-            RectTransform rect = o.GetComponent<RectTransform>();
-
-            o.transform.localScale = Vector3.one;
-            rect.sizeDelta = Vector2.zero;
-
-            rect.anchorMin = new Vector2(0, 0);
-            rect.anchorMax = new Vector2(1, 1);
-            rect.pivot = new Vector2(0, 1);
-
             if (layer.properties.Any(p => p.name == "collidable" && p.value == true))
             {
                 o.AddComponent<CompositeCollider2D>();
@@ -69,28 +59,18 @@ public class MapGenerator : MonoBehaviour
             GameObject o = new GameObject("Line " + i);
             o.transform.SetParent(parent.transform, false);
 
-            o.AddComponent<RectTransform>();
-            RectTransform rect = o.GetComponent<RectTransform>();
+            Vector3 pos = o.transform.position;
+            pos.y -= i;
 
-            o.transform.localScale = Vector3.one;
-            rect.sizeDelta = new Vector2(0, _map.tileheight);
-
-            rect.anchorMin = new Vector2(0, 1);
-            rect.anchorMax = new Vector2(1, 1);
-            rect.pivot = new Vector2(0, 1);
-
-            Vector3 pos = o.transform.localPosition;
-            pos.y -= _map.tileheight * i;
-
-            o.transform.localPosition = pos;
+            o.transform.position = pos;
 
             List<int> lineData = layer.data.Skip(_map.width * i).Take(_map.width).ToList();
 
-            CreateTile(lineData, layer.properties, o);
+            CreateTile(lineData, layer, o);
         }
     }
 
-    private void CreateTile(List<int> lineData, List<Property> properties, GameObject parent)
+    private void CreateTile(List<int> lineData, Layer layer, GameObject parent)
     {
         for (int i = 0; i < lineData.Count; i++)
         {
@@ -104,37 +84,27 @@ public class MapGenerator : MonoBehaviour
             GameObject o = new GameObject("Tile " + i);
             o.transform.SetParent(parent.transform, false);
 
-            o.AddComponent<RectTransform>();
-            RectTransform rect = o.GetComponent<RectTransform>();
+            Vector3 pos = o.transform.position;
+            pos.x += i;
 
-            o.transform.localScale = Vector3.one;
-            rect.sizeDelta = Vector2.zero;
+            o.transform.position = pos;
 
-            rect.anchorMin = new Vector2(0, 1);
-            rect.anchorMax = new Vector2(0, 1);
-            rect.pivot = new Vector2(0, 1);
-            rect.sizeDelta = new Vector2(_map.tilewidth, _map.tileheight);
+            o.AddComponent<SpriteRenderer>();
 
-            Vector3 pos = o.transform.localPosition;
-            pos.x += _map.tilewidth * i;
-
-            o.transform.localPosition = pos;
-
-            o.AddComponent<Image>();
-
-            if(properties.Any(p => p.name == "collidable" && p.value == true))
+            if(layer.properties.Any(p => p.name == "collidable" && p.value == true))
             {
                 o.AddComponent<BoxCollider2D>();
 
                 BoxCollider2D col = o.GetComponent<BoxCollider2D>();
 
                 col.usedByComposite = true;
-
-                col.offset = new Vector2(_map.tilewidth/2, -_map.tileheight/2);
-                col.size = new Vector2(_map.tilewidth, _map.tileheight);
+                
+                col.size = new Vector2(1, 1);
             }
 
-            o.GetComponent<Image>().sprite = _tiles[id];
+            o.GetComponent<SpriteRenderer>().sprite = _tiles[id];
+
+            o.GetComponent<SpriteRenderer>().sortingOrder = _map.layers.IndexOf(layer);
         }
     }
 
