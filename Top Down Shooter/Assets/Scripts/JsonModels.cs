@@ -18,4 +18,12 @@ public class Layer
 {
     public List<int> data;
     public string name;
+    public List<Property> properties;
+}
+
+[System.Serializable]
+public class Property
+{
+    public string name;
+    public bool value;
 }

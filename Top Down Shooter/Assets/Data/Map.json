@@ -1,4 +1,11 @@
 { "compressionlevel":0,
+ "editorsettings":
+    {
+     "export":
+        {
+         "target":"."
+        }
+    },
  "height":17,
  "infinite":false,
  "layers":[
@@ -32,6 +39,12 @@
          "id":1,
          "name":"Islands",
          "opacity":1,
+         "properties":[
+                {
+                 "name":"collidable",
+                 "type":"bool",
+                 "value":true
+                }],
          "type":"tilelayer",
          "visible":true,
          "width":30,
@@ -58,8 +71,17 @@
  "tileheight":64,
  "tilesets":[
         {
+         "columns":16,
          "firstgid":1,
-         "source":"Top Down Shooter.tsx"
+         "image":"..\/..\/..\/..\/kenney_piratepack\/Tilesheet\/tiles_sheet.png",
+         "imageheight":384,
+         "imagewidth":1024,
+         "margin":0,
+         "name":"Top Down Shooter",
+         "spacing":0,
+         "tilecount":96,
+         "tileheight":64,
+         "tilewidth":64
         }],
  "tilewidth":64,
  "type":"map",
