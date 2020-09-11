@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class HealthBar : MonoBehaviour
+public class BulletPoolManager : MonoBehaviour
 {
     // Start is called before the first frame update
     void Start()

@@ -58,7 +58,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.18039216, g: 0.8000001, b: 0.43921572, a: 1}
+  m_Color: {r: 0.75294125, g: 0.5137255, b: 0.26666668, a: 1}
   m_RaycastTarget: 1
   m_Maskable: 1
   m_OnCullStateChanged:
@@ -132,7 +132,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.75294125, g: 0.5137255, b: 0.26666668, a: 1}
+  m_Color: {r: 0.18039216, g: 0.8, b: 0.4392157, a: 1}
   m_RaycastTarget: 1
   m_Maskable: 1
   m_OnCullStateChanged:
@@ -196,7 +196,6 @@ GameObject:
   - component: {fileID: 5201531487646619938}
   - component: {fileID: 5201531487646619937}
   - component: {fileID: 5201531487646619936}
-  - component: {fileID: 4894174072121937549}
   m_Layer: 5
   m_Name: Health Bar Canvas
   m_TagString: Untagged
@@ -221,7 +220,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 1.2}
+  m_AnchoredPosition: {x: 0, y: 1.199997}
   m_SizeDelta: {x: 2.5, y: 0.3}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!223 &5201531487646619938
@@ -284,18 +283,6 @@ MonoBehaviour:
   m_BlockingMask:
     serializedVersion: 2
     m_Bits: 4294967295
---- !u!114 &4894174072121937549
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5201531487646619942}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4ba454fe420cf0b4f99f073f55bb058d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &7984921580492091647
 GameObject:
   m_ObjectHideFlags: 0
@@ -306,7 +293,6 @@ GameObject:
   m_Component:
   - component: {fileID: 5451250181295916119}
   - component: {fileID: 2186940693096625323}
-  - component: {fileID: 6254014393893126120}
   m_Layer: 5
   m_Name: Health Bar Slider
   m_TagString: Untagged
@@ -377,23 +363,11 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 0}
   m_FillRect: {fileID: 4969063669821233553}
   m_HandleRect: {fileID: 0}
-  m_Direction: 0
+  m_Direction: 1
   m_MinValue: 0
   m_MaxValue: 100
   m_WholeNumbers: 0
-  m_Value: 0
+  m_Value: 100
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls: []
---- !u!114 &6254014393893126120
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7984921580492091647}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4ba454fe420cf0b4f99f073f55bb058d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
