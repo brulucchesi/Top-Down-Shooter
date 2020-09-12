@@ -77,8 +77,8 @@ MonoBehaviour:
     type: 3}
   _shootRateInSeconds: 1
   _frontalShootSpawn: {fileID: 7377608218617370445}
-  _leftShootSpawns: {fileID: 8345539794339761396}
-  _rightShootSpawns: {fileID: 7142830222742136659}
+  _leftShootSpawns: {fileID: 7142830222742136659}
+  _rightShootSpawns: {fileID: 8345539794339761396}
 --- !u!50 &1189158639041999261
 Rigidbody2D:
   serializedVersion: 4

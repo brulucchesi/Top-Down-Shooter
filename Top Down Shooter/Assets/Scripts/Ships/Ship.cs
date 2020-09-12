@@ -35,6 +35,8 @@ public abstract class Ship : MonoBehaviour
 
     protected Rigidbody2D _rigidbody;
 
+    private Rect _cameraBounds;
+
     protected virtual void Start()
     {
         _currentHealth = _maxHealth;
@@ -54,11 +56,13 @@ public abstract class Ship : MonoBehaviour
         {
             Debug.LogError("Ship animator is NULL");
         }
+        _cameraBounds = GameManager.Instance.GetCameraBounds();
     }
 
     // Update is called once per frame
     protected virtual void Update()
     {
+        MoveBounds();
         Move();
     }
 
@@ -67,13 +71,26 @@ public abstract class Ship : MonoBehaviour
 
     }
 
+    private void MoveBounds()
+    {
+        Vector3 shipSize = ShipObject.GetComponent<SpriteRenderer>().bounds.extents;
+
+        Vector3 pos = transform.position;
+
+        pos.y = Mathf.Clamp(transform.position.y, _cameraBounds.yMin + shipSize.y, _cameraBounds.yMax - shipSize.y);
+
+        pos.x = Mathf.Clamp(transform.position.x, _cameraBounds.xMin + shipSize.x, _cameraBounds.xMax - shipSize.x);
+
+        transform.position = pos;
+    }
+
     public void TakeDamage(float damageReceived)
     {
         _currentHealth -= damageReceived;
 
         _healthBar.value = _currentHealth;
 
-        if(_currentHealth <= 0)
+        if (_currentHealth <= 0)
         {
             _animator.SetTrigger("Explode");
             return;
@@ -89,5 +106,11 @@ public abstract class Ship : MonoBehaviour
     protected virtual void Death()
     {
 
+    }
+
+
+    private void OnDrawGizmos()
+    {
+        Gizmos.DrawCube(transform.position, new Vector3(1, 1, 2));
     }
 }

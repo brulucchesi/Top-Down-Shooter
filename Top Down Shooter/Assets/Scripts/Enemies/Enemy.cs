@@ -37,13 +37,9 @@ public class Enemy : Ship
 
     protected virtual void FieldOfView()
     {
-        _currentAngle = Vector3.SignedAngle(-ShipObject.transform.up, _player.transform.position - transform.position, Vector3.forward);
+        _currentAngle = Vector3.SignedAngle(ShipObject.transform.up, _player.transform.position - transform.position, Vector3.forward);
 
         _currentDistance = Vector3.Distance(_player.transform.position, transform.position);
-
-        //Debug.Log("angle " + _currentAngle);
-
-        //Debug.Log("dist " + _currentDistance);
     }
 
     protected override void Death()

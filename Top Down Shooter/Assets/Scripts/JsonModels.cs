@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [System.Serializable]
-public class Map
+public class MapJson
 {
     public List<Layer> layers;
     public int height;

@@ -41,7 +41,7 @@ public class Player : Ship
         float horizontalInput = Input.GetAxis("Horizontal");
         float verticalInput = Input.GetAxis("Vertical");
 
-        _rigidbody.velocity = -ShipObject.transform.up * verticalInput * _moveSpeed;
+        _rigidbody.velocity = ShipObject.transform.up * verticalInput * _moveSpeed;
 
         float rotation = -horizontalInput * _rotateSpeed;
 

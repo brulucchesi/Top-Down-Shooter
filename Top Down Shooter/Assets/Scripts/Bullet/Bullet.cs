@@ -19,11 +19,16 @@ public class Bullet : MonoBehaviour
 
     private bool _canMove = true;
 
-    // Start is called before the first frame update
-    void Start()
+    private void OnEnable()
     {
         _canMove = true;
 
+        StartCoroutine(LifetimeRoutine());
+    }
+
+    // Start is called before the first frame update
+    void Start()
+    {
         _rigidbody = gameObject.GetComponent<Rigidbody2D>();
 
         if (_rigidbody == null)
@@ -37,8 +42,6 @@ public class Bullet : MonoBehaviour
         {
             Debug.LogError("Bullet Animator is NULL");
         }
-
-        StartCoroutine(LifetimeRoutine());
     }
 
     // Update is called once per frame
@@ -55,7 +58,7 @@ public class Bullet : MonoBehaviour
             return;
         }
 
-        _rigidbody.velocity = -transform.up * _moveSpeed;
+        _rigidbody.velocity = transform.up * _moveSpeed;
     }
 
     public void AssignDamage(float damage)
@@ -95,6 +98,13 @@ public class Bullet : MonoBehaviour
 
     private void DestroyBullet()
     {
-        Destroy(this.gameObject);
+        foreach(Transform child in transform)
+        {
+            child.gameObject.SetActive(false);
+        }
+
+        gameObject.SetActive(false);
+        transform.position = Vector3.zero;
+        transform.rotation = Quaternion.identity;
     }
 }

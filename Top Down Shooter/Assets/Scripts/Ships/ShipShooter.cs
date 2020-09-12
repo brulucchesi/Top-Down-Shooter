@@ -7,9 +7,6 @@ public class ShipShooter : MonoBehaviour
 {
     [Header("Shoot")]
     [SerializeField]
-    private GameObject _bulletPrefab = null;
-
-    [SerializeField]
     private float _shootRateInSeconds = 1f;
 
     private float _canShoot = -1f;
@@ -21,11 +18,14 @@ public class ShipShooter : MonoBehaviour
     [SerializeField]
     private Transform _rightShootSpawns = null;
 
-    Ship _shipScript;
+    private Ship _shipScript;
+
+    private PoolManager _poolManager;
 
     private void Start()
     {
         _shipScript = GetComponent<Ship>();
+        _poolManager = PoolManager.Instance;
     }
 
     public void FrontalShoot()
@@ -35,7 +35,7 @@ public class ShipShooter : MonoBehaviour
 
         _canShoot = Time.time + _shootRateInSeconds;
 
-        CreateBullet(_frontalShootSpawn.position, _shipScript.ShipObject.transform.rotation);
+        GetBullet(_frontalShootSpawn.position, _shipScript.ShipObject.transform.rotation);
     }
 
     public void SideShoot(bool isLeft = false)
@@ -54,21 +54,27 @@ public class ShipShooter : MonoBehaviour
 
         foreach (Transform child in spawns)
         {
-            CreateBullet(child.position, child.rotation);
+            GetBullet(child.position, child.rotation);
         }
     }
 
-    private void CreateBullet(Vector3 pos, Quaternion rot)
+    private void GetBullet(Vector3 pos, Quaternion rot)
     {
-        GameObject o = Instantiate(_bulletPrefab, pos, rot);
+        Transform bullet = _poolManager.GetBulletFromPool();
 
-        Bullet bullet = o.GetComponent<Bullet>();
-        if (bullet != null)
+        bullet.position = pos;
+        bullet.rotation = rot;
+
+        Bullet bulletScript = bullet.GetComponent<Bullet>();
+
+        if (bulletScript != null)
         {
             if (gameObject.GetComponent<Player>() != null)
-                bullet.AssignBulletToPlayer();
+                bulletScript.AssignBulletToPlayer();
 
-            bullet.AssignDamage(_shipScript.DamageOther);
+            bulletScript.AssignDamage(_shipScript.DamageOther);
         }
+
+        bullet.gameObject.SetActive(true);
     }
 }
