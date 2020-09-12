@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Enemy : Ship
 {
-    protected GameObject _player;
+    protected Player _player;
 
     [Header("Field Of View")]
     [SerializeField]
@@ -17,11 +17,16 @@ public class Enemy : Ship
 
     protected float _currentDistance;
 
+    private EnemySpawnManager _enemySpawnManager;
+
+
     protected override void Start()
     {
         base.Start();
 
-        _player = FindObjectOfType<Player>().gameObject;
+        _player = _gameManager.Player;
+
+        _enemySpawnManager = EnemySpawnManager.Instance;
     }
 
     protected override void Update()
@@ -45,6 +50,9 @@ public class Enemy : Ship
     protected override void Death()
     {
         base.Death();
-        Destroy(this.gameObject);
+
+        gameObject.SetActive(false);
+        _enemySpawnManager.RemoveEnemy(this.gameObject);
     }
+
 }

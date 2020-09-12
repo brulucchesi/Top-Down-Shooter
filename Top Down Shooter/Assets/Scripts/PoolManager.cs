@@ -1,6 +1,22 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System;
+using System.Linq;
+
+public enum PoolType
+{
+    Bullet,
+    Enemy
+}
+
+[Serializable]
+public class PoolObject
+{
+    public PoolType Type;
+    public Transform Parent;
+    public GameObject Prefab;
+}
 
 public class PoolManager : MonoBehaviour
 {
@@ -18,19 +34,8 @@ public class PoolManager : MonoBehaviour
     }
     #endregion
 
-    [Header("Pools")]
     [SerializeField]
-    private Transform[] _enemiesPool = null;
-
-    [SerializeField]
-    private Transform _bulletsPool = null;
-
-    [Header("Prefabs")]
-    [SerializeField]
-    private GameObject[] _enemiesPrefabs = null;
-
-    [SerializeField]
-    private GameObject _bulletPrefab = null;
+    private List<PoolObject> _pools = null;
 
     [Header("Initial Quantity")]
     [SerializeField]
@@ -40,21 +45,29 @@ public class PoolManager : MonoBehaviour
 
     private GameManager _gameManager;
 
+    private PoolObject[] _enemiesPools;
+
+    private PoolObject _bulletPool;
+
     private void Awake()
     {
         _instance = this;
 
+        _bulletPool = _pools.First(pool => pool.Type == PoolType.Bullet);
+
         for (int i = 0; i < _initialBullets; i++)
         {
-            GameObject bullet = Instantiate(_bulletPrefab, Vector3.zero, Quaternion.identity, _bulletsPool);
+            GameObject bullet = Instantiate(_bulletPool.Prefab, Vector3.zero, Quaternion.identity, _bulletPool.Parent);
             bullet.SetActive(false);
         }
 
-        for (int i = 0; i < _enemiesPrefabs.Length; i++)
+        _enemiesPools = _pools.Where(pool => pool.Type == PoolType.Enemy).ToArray();
+
+        for (int i = 0; i < _enemiesPools.Length; i++)
         {
             for (int z = 0; z < _initialEnemiesPerType; z++)
             {
-                GameObject enemy = Instantiate(_enemiesPrefabs[i], Vector3.zero, Quaternion.identity, _enemiesPool[i]);
+                GameObject enemy = Instantiate(_enemiesPools[i].Prefab, Vector3.zero, Quaternion.identity, _enemiesPools[i].Parent);
                 enemy.SetActive(false);
             }
         }
@@ -67,15 +80,15 @@ public class PoolManager : MonoBehaviour
 
     public Transform GetBulletFromPool()
     {
-        for (int i = 0; i < _bulletsPool.childCount; i++)
+        for (int i = 0; i < _bulletPool.Parent.childCount; i++)
         {
-            if (!_bulletsPool.GetChild(i).gameObject.activeInHierarchy)
+            if (!_bulletPool.Parent.GetChild(i).gameObject.activeInHierarchy)
             {
-                return _bulletsPool.GetChild(i);
+                return _bulletPool.Parent.GetChild(i);
             }
         }
 
-        Transform bullet = Instantiate(_bulletPrefab, Vector3.zero, Quaternion.identity, _bulletsPool).transform;
+        Transform bullet = Instantiate(_bulletPool.Prefab, Vector3.zero, Quaternion.identity, _bulletPool.Parent).transform;
 
         bullet.gameObject.SetActive(false);
 
@@ -84,23 +97,23 @@ public class PoolManager : MonoBehaviour
 
     public Transform GetEnemyFromPool(int index)
     {
-        for (int i = 0; i < _enemiesPool[index].childCount; i++)
+        for (int i = 0; i < _enemiesPools[index].Parent.childCount; i++)
         {
-            if (!_enemiesPool[index].GetChild(i).gameObject.activeInHierarchy)
+            if (!_enemiesPools[index].Parent.GetChild(i).gameObject.activeInHierarchy)
             {
-                return _enemiesPool[index].GetChild(i);
+                return _enemiesPools[index].Parent.GetChild(i);
             }
         }
 
-        Transform enemy = Instantiate(_enemiesPrefabs[index], Vector3.zero, Quaternion.identity, _enemiesPool[index]).transform;
+        Transform enemy = Instantiate(_enemiesPools[index].Prefab, Vector3.zero, Quaternion.identity, _enemiesPools[index].Parent).transform;
 
         enemy.gameObject.SetActive(false);
 
         return enemy;
     }
 
-    public int EnemiesPrefabsNumber()
+    public int GetEnemyTypesCount()
     {
-        return _enemiesPrefabs.Length;
+        return _enemiesPools.Length;
     }
 }

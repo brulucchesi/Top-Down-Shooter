@@ -22,12 +22,10 @@ public class EnemyShooter : Enemy
             if (_currentAngle > 60f)
             {
                 _shipShooterScript.SideShoot(true);
-                Debug.Log("esquerda");
             }
             else if (_currentAngle < -60f)
             {
                 _shipShooterScript.SideShoot();
-                Debug.Log("direita");
             }
             else
             {
@@ -37,7 +35,6 @@ public class EnemyShooter : Enemy
                 }
 
                 _shipShooterScript.FrontalShoot();
-                Debug.Log("to vendo de frente");
             }
         }
     }

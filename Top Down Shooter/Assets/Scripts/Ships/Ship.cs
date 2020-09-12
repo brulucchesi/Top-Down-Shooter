@@ -37,10 +37,12 @@ public abstract class Ship : MonoBehaviour
 
     private Rect _cameraBounds;
 
+    protected GameManager _gameManager;
+
     protected virtual void Start()
     {
         _currentHealth = _maxHealth;
-        _healthBar.value = _currentHealth;
+        UpdateHealth();
 
         _spriteInUse = 0;
         ShipObject.GetComponent<SpriteRenderer>().sprite = _shipSprites[_spriteInUse];
@@ -56,7 +58,10 @@ public abstract class Ship : MonoBehaviour
         {
             Debug.LogError("Ship animator is NULL");
         }
-        _cameraBounds = GameManager.Instance.GetCameraBounds();
+
+        _gameManager = GameManager.Instance;
+
+        _cameraBounds = _gameManager.GetCameraBounds();
     }
 
     // Update is called once per frame
@@ -88,29 +93,43 @@ public abstract class Ship : MonoBehaviour
     {
         _currentHealth -= damageReceived;
 
-        _healthBar.value = _currentHealth;
-
         if (_currentHealth <= 0)
         {
             _animator.SetTrigger("Explode");
             return;
         }
 
-        _spriteInUse++;
-
-        ShipObject.GetComponent<SpriteRenderer>().sprite = _shipSprites[_spriteInUse];
+        UpdateHealth();
+        ChangeSprite(++_spriteInUse);
 
         _animator.SetTrigger("Break");
     }
 
+    private void UpdateHealth()
+    {
+        _healthBar.value = _currentHealth;
+    }
+
+    private void ChangeSprite(int index)
+    {
+        ShipObject.GetComponent<SpriteRenderer>().sprite = _shipSprites[index];
+    }
+
     protected virtual void Death()
     {
-
+        ResetShip();
     }
 
 
-    private void OnDrawGizmos()
+    private void ResetShip()
     {
-        Gizmos.DrawCube(transform.position, new Vector3(1, 1, 2));
+        transform.position = Vector3.zero;
+        transform.rotation = Quaternion.identity;
+
+        _currentHealth = _maxHealth;
+        UpdateHealth();
+
+        _spriteInUse = 0;
+        ChangeSprite(_spriteInUse);
     }
 }

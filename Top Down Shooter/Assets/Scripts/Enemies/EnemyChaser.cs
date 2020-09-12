@@ -20,7 +20,6 @@ public class EnemyChaser : Enemy
         if (_currentDistance < _maxDistance && _currentAngle < _maxAngle && _currentAngle > -_maxAngle)
         {
             _canChase = true;
-            Debug.Log("can chase");
         }
         else
         {
@@ -51,8 +50,6 @@ public class EnemyChaser : Enemy
 
             GameObject o = collision.gameObject;
             Ship ship = o.transform.GetComponent<Ship>();
-
-            Debug.Log("hit player");
 
             if (ship != null)
             {

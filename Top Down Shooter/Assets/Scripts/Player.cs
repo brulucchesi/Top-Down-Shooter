@@ -11,6 +11,9 @@ public class Player : Ship
     protected override void Start()
     {
         base.Start();
+
+        _gameManager.Player = this;
+
         _shipShooterScript = GetComponent<ShipShooter>();
     }
 
