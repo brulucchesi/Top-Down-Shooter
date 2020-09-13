@@ -59,6 +59,8 @@ MonoBehaviour:
   - {fileID: 21300000, guid: 585c8d844402cb242bb51699ddc5d62c, type: 3}
   - {fileID: 21300000, guid: 81760f9b7c4bd254e91d2f997b19856a, type: 3}
   - {fileID: 21300000, guid: ccad099cf9c8d7b4d95fb308e6d57f6c, type: 3}
+  _explosion: {fileID: 8763333111021717674}
+  _timeToRevive: 1
 --- !u!114 &2891914556539362146
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -71,8 +73,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ea486ca206cb65b4182391ce6e8c22eb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _bulletPrefab: {fileID: 7997133271471466830, guid: dbba3047fb2165243a2b2b637af3b356,
-    type: 3}
   _shootRateInSeconds: 1
   _frontalShootSpawn: {fileID: 4719434888889474992}
   _leftShootSpawns: {fileID: 4916845225929830318}
@@ -221,6 +221,11 @@ PrefabInstance:
       propertyPath: m_AnchorMax.x
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5201531487646619938, guid: 66ed0ccf8be9aba419ee96d06a5fec68,
+        type: 3}
+      propertyPath: m_AdditionalShaderChannelsFlag
+      value: 25
+      objectReference: {fileID: 0}
     - target: {fileID: 5201531487646619942, guid: 66ed0ccf8be9aba419ee96d06a5fec68,
         type: 3}
       propertyPath: m_Name
@@ -348,6 +353,11 @@ PrefabInstance:
       propertyPath: m_TagString
       value: Player
       objectReference: {fileID: 0}
+    - target: {fileID: 8306392350944438239, guid: 6567371454c6261448c7f1a631fa5a81,
+        type: 3}
+      propertyPath: m_Layer
+      value: 10
+      objectReference: {fileID: 0}
     - target: {fileID: 8613990469454045931, guid: 6567371454c6261448c7f1a631fa5a81,
         type: 3}
       propertyPath: m_RootOrder
@@ -364,6 +374,12 @@ GameObject:
 --- !u!4 &383374286952829086 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 8306392350944438238, guid: 6567371454c6261448c7f1a631fa5a81,
+    type: 3}
+  m_PrefabInstance: {fileID: 8508495090707543872}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &8763333111021717674 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1119604363981586410, guid: 6567371454c6261448c7f1a631fa5a81,
     type: 3}
   m_PrefabInstance: {fileID: 8508495090707543872}
   m_PrefabAsset: {fileID: 0}

@@ -6,6 +6,9 @@ public class Enemy : Ship
 {
     protected Player _player;
 
+    [SerializeField]
+    private int _pointToPlayer = 1;
+
     [Header("Field Of View")]
     [SerializeField]
     protected float _maxDistance = 4f;
@@ -31,8 +34,8 @@ public class Enemy : Ship
 
     protected override void Update()
     {
-        base.Update();
         FieldOfView();
+        base.Update();
     }
 
     protected override void Move()
@@ -50,9 +53,19 @@ public class Enemy : Ship
     protected override void Death()
     {
         base.Death();
+        
+        if(_currentHealth <= 0)
+            _gameManager.AddPointsToPlayer(_pointToPlayer);
+
+        ResetShip();
+    }
+
+    public override void ResetShip()
+    {
+        base.ResetShip();
 
         gameObject.SetActive(false);
-        _enemySpawnManager.RemoveEnemy(this.gameObject);
+        _enemySpawnManager.RemoveEnemy(gameObject);
     }
 
 }

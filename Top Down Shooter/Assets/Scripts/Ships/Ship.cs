@@ -18,7 +18,7 @@ public abstract class Ship : MonoBehaviour
     [SerializeField]
     private float _maxHealth = 100f;
 
-    private float _currentHealth = -1f;
+    protected float _currentHealth = -1f;
 
     [SerializeField]
     private Slider _healthBar = null;
@@ -29,13 +29,16 @@ public abstract class Ship : MonoBehaviour
     [SerializeField]
     private Sprite[] _shipSprites = null;
 
+    [SerializeField]
+    private GameObject _explosion = null;
+
     private int _spriteInUse = 0;
 
     protected Animator _animator;
 
     protected Rigidbody2D _rigidbody;
 
-    private Rect _cameraBounds;
+    protected Rect _cameraBounds;
 
     protected GameManager _gameManager;
 
@@ -117,11 +120,11 @@ public abstract class Ship : MonoBehaviour
 
     protected virtual void Death()
     {
-        ResetShip();
+        
     }
 
 
-    private void ResetShip()
+    public virtual void ResetShip()
     {
         transform.position = Vector3.zero;
         transform.rotation = Quaternion.identity;
@@ -129,7 +132,10 @@ public abstract class Ship : MonoBehaviour
         _currentHealth = _maxHealth;
         UpdateHealth();
 
+        _explosion.SetActive(false);
+
         _spriteInUse = 0;
+
         ChangeSprite(_spriteInUse);
     }
 }

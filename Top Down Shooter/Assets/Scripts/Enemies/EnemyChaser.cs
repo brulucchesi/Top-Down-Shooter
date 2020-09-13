@@ -9,8 +9,6 @@ public class EnemyChaser : Enemy
     protected override void Update()
     {
         base.Update();
-
-        ChasePlayer();
     }
 
     protected override void FieldOfView()
@@ -27,19 +25,21 @@ public class EnemyChaser : Enemy
         }
     }
 
-    private void ChasePlayer()
+    protected override void Move()
     {
+        base.Move();
+
         if (!_canChase)
-            return;
-
-        Vector3 direction = _player.transform.position - this.transform.position;
-
-        if (Mathf.Abs(_currentAngle) > 0.5f)
         {
-            ShipObject.transform.Rotate(Vector3.forward * _currentAngle);
+            _rigidbody.velocity = Vector3.zero;
+            return;
         }
+           
+        Vector3 direction = _player.transform.position - transform.position;
 
-        this.transform.Translate(direction.normalized * _moveSpeed * Time.deltaTime, Space.World);
+        ShipObject.transform.up = Vector3.Lerp(ShipObject.transform.up, direction, Time.deltaTime * _rotateSpeed);
+
+        _rigidbody.velocity = ShipObject.transform.up * _moveSpeed;
     }
 
     private void OnCollisionEnter2D(Collision2D collision)

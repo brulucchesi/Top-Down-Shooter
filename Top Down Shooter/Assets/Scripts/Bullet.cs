@@ -103,6 +103,8 @@ public class Bullet : MonoBehaviour
             child.gameObject.SetActive(false);
         }
 
+        _isPlayerShooting = false;
+
         gameObject.SetActive(false);
         transform.position = Vector3.zero;
         transform.rotation = Quaternion.identity;

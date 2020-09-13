@@ -20,7 +20,7 @@ public class EnemySpawnManager : MonoBehaviour
 
     [Header("Spawn Enemies")]
     [SerializeField]
-    private float _secondsToSpawn = 1f;
+    private float _defaultSecondsToSpawn = 1f;
     [SerializeField]
     private int _maxOfEnemiesOnScreen = 5;
 
@@ -32,6 +32,8 @@ public class EnemySpawnManager : MonoBehaviour
 
     private List<GameObject> _activeEnemies = new List<GameObject>();
 
+    private float _currentSecondsToSpawn;
+
     private void Awake()
     {
         _instance = this;
@@ -42,9 +44,36 @@ public class EnemySpawnManager : MonoBehaviour
         _poolManager = PoolManager.Instance;
 
         _gameManager = GameManager.Instance;
+    }
 
+    public float GetDefaultSecondsToSpawn()
+    {
+        return _defaultSecondsToSpawn;
+    }
+
+    public void StartSpawn()
+    {
         _canSpawn = true;
-        StartCoroutine(SpawnEnemies());
+
+        _currentSecondsToSpawn = PlayerPrefs.GetFloat("EnemySpawnTime", _defaultSecondsToSpawn);
+
+        //StartCoroutine(SpawnEnemies());
+    }
+
+    public void StopSpawn()
+    {
+        _canSpawn = false;
+        for(int i = _activeEnemies.Count - 1; i >= 0; i--)
+        {
+            Enemy enemyScript = _activeEnemies[i].GetComponent<Enemy>();
+
+            if(enemyScript != null)
+            {
+                enemyScript.ResetShip();
+            }
+        }
+
+        _activeEnemies.Clear();
     }
 
     private IEnumerator SpawnEnemies()
@@ -76,7 +105,7 @@ public class EnemySpawnManager : MonoBehaviour
                 }
             }
 
-            yield return new WaitForSeconds(_secondsToSpawn);
+            yield return new WaitForSeconds(_currentSecondsToSpawn);
         }
     }
 

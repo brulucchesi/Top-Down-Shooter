@@ -22,9 +22,94 @@ public class GameManager : MonoBehaviour
 
     public Player Player;
 
+    private EnemySpawnManager _enemySpawnManager;
+
+    private ScreenManager _screenManager;
+
+    [HideInInspector]
+    public int PlayerPoints = 0;
+
+    public delegate void OnChangePlayerPoint();
+    public static event OnChangePlayerPoint onChangePlayerPoint;
+
+    public delegate void OnChangeTime();
+    public static event OnChangeTime onChangeTime;
+
+    [HideInInspector]
+    public float TimeToEnd = 0f;
+    private bool _canCountTime = false;
+    
+    [SerializeField]
+    private float _defaultSessionTimeInSeconds = 60f;
+
     private void Awake()
     {
         _instance = this;
+
+        Player.ResetShip();
+    }
+
+    private void Start()
+    {
+        _enemySpawnManager = EnemySpawnManager.Instance;
+        _screenManager = ScreenManager.Instance;
+    }
+
+    public void StartGame()
+    {
+        Player.StartPlayer();
+        _enemySpawnManager.StartSpawn();
+        PlayerPoints = 0;
+
+        TimeToEnd = PlayerPrefs.GetFloat("SessionTime", _defaultSessionTimeInSeconds);
+        _canCountTime = true;
+    }
+
+    public float GetDefaultSessionTime()
+    {
+        return _defaultSessionTimeInSeconds;
+    }
+
+    private void GameOver()
+    {
+        Player.ResetShip();
+
+        _enemySpawnManager.StopSpawn();
+
+        _screenManager.ChangeScreen(ScreenType.GameOver);
+    }
+
+    private void Update()
+    {
+        ChangeTime();
+    }
+
+    private void ChangeTime()
+    {
+        if (_canCountTime)
+        {
+            if (TimeToEnd > 0)
+            {
+                if (onChangeTime != null)
+                    onChangeTime();
+
+                TimeToEnd -= Time.deltaTime;
+            }
+            else
+            {
+                TimeToEnd = 0f;
+                _canCountTime = false;
+                GameOver();
+            }
+        }
+    }
+
+    public void AddPointsToPlayer(int point)
+    {
+        PlayerPoints += point;
+
+        if (onChangePlayerPoint != null)
+            onChangePlayerPoint();
     }
 
     public Rect GetCameraBounds()
