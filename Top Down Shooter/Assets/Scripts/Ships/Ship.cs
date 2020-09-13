@@ -23,6 +23,8 @@ public abstract class Ship : MonoBehaviour
     [SerializeField]
     private Slider _healthBar = null;
 
+    private float _healthAmountToChangeSprite;
+
     [Header("Damage")]
     public float DamageOther = 25f;
 
@@ -44,7 +46,12 @@ public abstract class Ship : MonoBehaviour
 
     protected virtual void Start()
     {
+        _healthBar.maxValue = _maxHealth;
+
         _currentHealth = _maxHealth;
+
+        _healthAmountToChangeSprite = _maxHealth / _shipSprites.Length;
+
         UpdateHealth();
 
         _spriteInUse = 0;
@@ -104,7 +111,11 @@ public abstract class Ship : MonoBehaviour
         }
 
         UpdateHealth();
-        ChangeSprite(++_spriteInUse);
+        
+        float healthLimitToChangeSprite = _maxHealth - _healthAmountToChangeSprite * (_spriteInUse + 1);
+
+        if(_currentHealth <= healthLimitToChangeSprite)
+            ChangeSprite(++_spriteInUse);
 
         _animator.SetTrigger("Break");
     }

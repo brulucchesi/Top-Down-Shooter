@@ -52,7 +52,7 @@ MonoBehaviour:
   _rotateSpeed: 2
   _maxHealth: 100
   _healthBar: {fileID: 3838056125283477616}
-  DamageOther: 25
+  DamageOther: 50
   _shipSprites:
   - {fileID: 21300000, guid: b2abd0d27a8b44c4fbc0cf30f6e872bb, type: 3}
   - {fileID: 21300000, guid: d773caaa548fb1a43b807cd1a00a950d, type: 3}
