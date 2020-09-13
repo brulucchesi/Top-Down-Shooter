@@ -33,8 +33,10 @@ public class EnemyShooter : Enemy
         _shipShooterScript = GetComponent<ShipShooter>();
     }
 
-    private void OnEnable()
+    protected override void OnEnable()
     {
+        base.OnEnable();
+
         _patrolPoints[0] = transform.position + ShipObject.transform.up * _patrolDistance;
         _patrolPoints[1] = transform.position - ShipObject.transform.up * _patrolDistance;
 
@@ -48,17 +50,13 @@ public class EnemyShooter : Enemy
 
     protected override void Move()
     {
-
-        Debug.DrawRay(transform.position, direction, Color.red);
-
         base.Move();
+
         if (!_canPatrol)
         {
+            _rigidbody.velocity = Vector2.zero;
             return;
         }
-
-        //Debug.Log(_pointToPatrol);
-        //ShipObject.transform.up = Vector3.Lerp(ShipObject.transform.up, direction, Time.deltaTime * _rotateSpeed);
 
         if (direction.magnitude > _distanceAccuracy && _cameraBounds.Contains(_colliderCheck.position))
         {
@@ -72,27 +70,35 @@ public class EnemyShooter : Enemy
 
     private IEnumerator RotateShip()
     {
+        direction = _pointToPatrol - transform.position;
+
         Quaternion initialRotation = ShipObject.transform.rotation;
-        Quaternion finalRotation = Quaternion.FromToRotation(ShipObject.transform.up, direction);
         float fraction = 0f;
 
-        while(fraction <= 1f)
+        float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg - 90;
+
+        Quaternion quaternion = Quaternion.AngleAxis(angle, ShipObject.transform.forward);
+
+        while (fraction <= 1f)
         {
             fraction += Time.deltaTime * _rotateSpeed;
 
-            Debug.Log("rotate " + fraction);
-
-            ShipObject.transform.rotation = Quaternion.Lerp(initialRotation, finalRotation, fraction);
+            ShipObject.transform.rotation = Quaternion.Lerp(initialRotation, quaternion, fraction);
 
             yield return new WaitForEndOfFrame();
         }
 
         _canPatrol = true;
+        _rotateShipRoutine = null;
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        Debug.Log("Change Patrol trigger");
+        ChangePatrolPoint();
+    }
+
+    private void OnTriggerStay2D(Collider2D collision)
+    {
         ChangePatrolPoint();
     }
 
@@ -100,23 +106,30 @@ public class EnemyShooter : Enemy
     {
         if (!_canPatrol)
             return;
-
-        Debug.Log("Change Patrol direction");
+       
         _canPatrol = false;
 
         _rigidbody.velocity = Vector2.zero;
         _currentPointIndex++;
 
-        if (_currentPointIndex >= _patrolPoints.Length)
+        if (_currentPointIndex > _patrolPoints.Length - 1)
             _currentPointIndex = 0;
 
         _pointToPatrol = _patrolPoints[_currentPointIndex];
-        direction = _pointToPatrol - transform.position;
 
         if (_rotateShipRoutine != null)
-            StopCoroutine(_rotateShipRoutine);
+        {
+            StopRotateRoutine();
+        }
 
         _rotateShipRoutine = StartCoroutine(RotateShip());
+    }
+
+    private void StopRotateRoutine()
+    {
+        StopCoroutine(_rotateShipRoutine);
+
+        _rotateShipRoutine = null;
     }
 
     public override void ResetShip()
@@ -131,18 +144,13 @@ public class EnemyShooter : Enemy
 
         if (_currentDistance < _maxDistance && _currentAngle < _maxAngle && _currentAngle > -_maxAngle)
         {
-            Debug.Log("seeing player");
-
             _canPatrol = false;
             _wasSeeingPlayer = true;
 
             if (_rotateShipRoutine != null)
             {
-                StopCoroutine(_rotateShipRoutine);
-
-                Debug.Log(_rotateShipRoutine);
+                StopRotateRoutine();
             }
-
 
             if (_currentAngle > 60f)
             {
@@ -164,10 +172,8 @@ public class EnemyShooter : Enemy
         {
             if (_wasSeeingPlayer)
             {
-                Debug.Log("stop seeing player");
-
+                _rotateShipRoutine = StartCoroutine(RotateShip());
                 _wasSeeingPlayer = false;
-                _canPatrol = true;
             }
         }
 

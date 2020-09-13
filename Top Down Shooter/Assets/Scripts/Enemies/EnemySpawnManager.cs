@@ -57,7 +57,7 @@ public class EnemySpawnManager : MonoBehaviour
 
         _currentSecondsToSpawn = PlayerPrefs.GetFloat("EnemySpawnTime", _defaultSecondsToSpawn);
 
-        //StartCoroutine(SpawnEnemies());
+        StartCoroutine(SpawnEnemies());
     }
 
     public void StopSpawn()

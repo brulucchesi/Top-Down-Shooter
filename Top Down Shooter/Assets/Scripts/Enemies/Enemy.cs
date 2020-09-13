@@ -23,6 +23,11 @@ public class Enemy : Ship
     private EnemySpawnManager _enemySpawnManager;
 
 
+    protected virtual void OnEnable()
+    {
+        EnableShipCollider(true);
+    }
+
     protected override void Start()
     {
         base.Start();
@@ -32,15 +37,10 @@ public class Enemy : Ship
         _enemySpawnManager = EnemySpawnManager.Instance;
     }
 
-    protected override void Update()
+    protected override void FixedUpdate()
     {
         FieldOfView();
-        base.Update();
-    }
-
-    protected override void Move()
-    {
-        base.Move();
+        base.FixedUpdate();
     }
 
     protected virtual void FieldOfView()

@@ -78,7 +78,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ea486ca206cb65b4182391ce6e8c22eb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _shootRateInSeconds: 1
+  _shootRateInSeconds: 1.5
   _frontalShootSpawn: {fileID: 7377608218617370445}
   _leftShootSpawns: {fileID: 7142830222742136659}
   _rightShootSpawns: {fileID: 8345539794339761396}
@@ -96,7 +96,7 @@ Rigidbody2D:
   m_UseAutoMass: 0
   m_Mass: 1
   m_LinearDrag: 0
-  m_AngularDrag: 0
+  m_AngularDrag: 0.05
   m_GravityScale: 0
   m_Material: {fileID: 0}
   m_Interpolate: 0

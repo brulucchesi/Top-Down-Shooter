@@ -25,8 +25,7 @@ public class Bullet : MonoBehaviour
 
         StartCoroutine(LifetimeRoutine());
     }
-
-    // Start is called before the first frame update
+    
     void Start()
     {
         _rigidbody = gameObject.GetComponent<Rigidbody2D>();
@@ -43,9 +42,8 @@ public class Bullet : MonoBehaviour
             Debug.LogError("Bullet Animator is NULL");
         }
     }
-
-    // Update is called once per frame
-    void Update()
+    
+    void FixedUpdate()
     {
         Move();
     }

@@ -13,21 +13,24 @@ public class Player : Ship
     [SerializeField]
     private float _timeToRevive = 1f;
 
+    private ScreenManager _screenManager;
+
     protected override void Start()
     {
         base.Start();
 
         _gameManager.Player = this;
+        _screenManager = ScreenManager.Instance;
 
         _shipShooterScript = GetComponent<ShipShooter>();
     }
 
-    protected override void Update()
+    protected override void FixedUpdate()
     {
         if (!_canMove)
             return;
 
-        base.Update();
+        base.FixedUpdate();
 
         if (Input.GetKeyDown(KeyCode.Space))
         {
@@ -73,23 +76,25 @@ public class Player : Ship
         base.ResetShip();
 
         _canMove = false;
+
         foreach (Transform child in transform)
         {
             child.gameObject.SetActive(false);
         }
-
     }
 
     private IEnumerator ReviveRoutine()
     {
         yield return new WaitForSeconds(_timeToRevive);
-        StartPlayer();
+
+        if(_screenManager.GetCurrentScreen() != ScreenType.GameOver)
+        {
+            StartPlayer();
+        }
     }
 
     public void StartPlayer()
     {
-        _canMove = true;
-
         Rect cameraBounds = _gameManager.GetCameraBounds();
 
         transform.position = cameraBounds.center;
@@ -98,5 +103,8 @@ public class Player : Ship
         {
             child.gameObject.SetActive(true);
         }
+
+        EnableShipCollider(true);
+        _canMove = true;
     }
 }

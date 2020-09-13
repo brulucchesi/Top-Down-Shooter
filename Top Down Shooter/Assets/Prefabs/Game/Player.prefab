@@ -50,7 +50,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ShipObject: {fileID: 383374286952829087}
   _moveSpeed: 3.5
-  _rotateSpeed: 2
+  _rotateSpeed: 1.5
   _maxHealth: 100
   _healthBar: {fileID: 5990943419703627024}
   DamageOther: 25

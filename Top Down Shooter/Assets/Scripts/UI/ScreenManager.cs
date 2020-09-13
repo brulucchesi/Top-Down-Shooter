@@ -38,10 +38,13 @@ public class ScreenManager : MonoBehaviour
     [SerializeField]
     private List<Screen> _screens = null;
 
+    private ScreenType _currentScreen;
+
     void Awake()
     {
         _instance = this;
         ChangeScreen(ScreenType.MainMenu);
+        _currentScreen = ScreenType.MainMenu;
     }
 
     public void ChangeScreen(ScreenType screenType)
@@ -50,7 +53,12 @@ public class ScreenManager : MonoBehaviour
         {
             screen.ScreenObject.SetActive(false);
         }
-
+        _currentScreen = screenType;
         _screens.First(screen => screen.Type == screenType).ScreenObject.SetActive(true);
+    }
+
+    public ScreenType GetCurrentScreen()
+    {
+        return _currentScreen;
     }
 }

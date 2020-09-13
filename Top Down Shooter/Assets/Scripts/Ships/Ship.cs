@@ -66,9 +66,8 @@ public abstract class Ship : MonoBehaviour
 
         _cameraBounds = _gameManager.GetCameraBounds();
     }
-
-    // Update is called once per frame
-    protected virtual void Update()
+    
+    protected virtual void FixedUpdate()
     {
         MoveBounds();
         Move();
@@ -98,6 +97,8 @@ public abstract class Ship : MonoBehaviour
 
         if (_currentHealth <= 0)
         {
+            EnableShipCollider(false);
+
             _animator.SetTrigger("Explode");
             return;
         }
@@ -123,6 +124,14 @@ public abstract class Ship : MonoBehaviour
         
     }
 
+    protected virtual void EnableShipCollider(bool enable)
+    {
+        Collider2D col = ShipObject.GetComponent<Collider2D>();
+        if (col != null)
+        {
+            col.enabled = enable;
+        }
+    }
 
     public virtual void ResetShip()
     {

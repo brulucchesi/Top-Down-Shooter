@@ -6,11 +6,6 @@ public class EnemyChaser : Enemy
 {
     private bool _canChase = false;
 
-    protected override void Update()
-    {
-        base.Update();
-    }
-
     protected override void FieldOfView()
     {
         base.FieldOfView();
@@ -56,6 +51,7 @@ public class EnemyChaser : Enemy
                 ship.TakeDamage(DamageOther);
             }
 
+            EnableShipCollider(false);
             _animator.SetTrigger("Explode");
         }
     }
