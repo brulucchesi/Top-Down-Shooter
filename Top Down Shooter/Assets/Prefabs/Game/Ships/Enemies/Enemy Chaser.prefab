@@ -61,7 +61,7 @@ MonoBehaviour:
   _explosion: {fileID: 5377922932571450083}
   _pointToPlayer: 1
   _maxDistance: 6
-  _maxAngle: 100
+  _maxAngle: 140
 --- !u!50 &3105813924625912472
 Rigidbody2D:
   serializedVersion: 4

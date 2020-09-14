@@ -88,7 +88,7 @@ MonoBehaviour:
     Parent: {fileID: 7711114690302163232}
     Prefab: {fileID: 1189158639041999251, guid: 8b8cf955aa7f5964b9d4f43fbcffcf56,
       type: 3}
-  _initialEnemiesPerType: 2
+  _initialEnemiesPerType: 3
   _initialBullets: 5
 --- !u!1 &7711114690348683584
 GameObject:

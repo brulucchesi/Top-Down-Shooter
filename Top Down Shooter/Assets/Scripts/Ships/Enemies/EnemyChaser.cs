@@ -52,6 +52,9 @@ public class EnemyChaser : Enemy
             }
 
             EnableShipCollider(false);
+
+            _audioManager.PlayExplosionSFX();
+
             _animator.SetTrigger("Explode");
         }
     }

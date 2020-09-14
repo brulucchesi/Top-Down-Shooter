@@ -44,6 +44,8 @@ public abstract class Ship : MonoBehaviour
 
     protected GameManager _gameManager;
 
+    protected AudioManager _audioManager;
+
     protected virtual void Start()
     {
         _healthBar.maxValue = _maxHealth;
@@ -70,6 +72,7 @@ public abstract class Ship : MonoBehaviour
         }
 
         _gameManager = GameManager.Instance;
+        _audioManager = AudioManager.Instance;
 
         _cameraBounds = _gameManager.GetCameraBounds();
     }
@@ -105,6 +108,8 @@ public abstract class Ship : MonoBehaviour
         if (_currentHealth <= 0)
         {
             EnableShipCollider(false);
+
+            _audioManager.PlayExplosionSFX();
 
             _animator.SetTrigger("Explode");
             return;

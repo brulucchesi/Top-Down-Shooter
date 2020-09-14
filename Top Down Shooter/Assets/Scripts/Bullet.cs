@@ -9,6 +9,9 @@ public class Bullet : MonoBehaviour
     [SerializeField]
     private float _lifetimeInSeconds = 2f;
 
+    [SerializeField]
+    private GameObject _explosion = null;
+
     private float _damage;
 
     private bool _isPlayerShooting = false;
@@ -18,6 +21,8 @@ public class Bullet : MonoBehaviour
     private Animator _animator;
 
     private bool _canMove = true;
+
+    private AudioManager _audioManager;
 
     private void OnEnable()
     {
@@ -41,6 +46,8 @@ public class Bullet : MonoBehaviour
         {
             Debug.LogError("Bullet Animator is NULL");
         }
+
+        _audioManager = AudioManager.Instance;
     }
     
     void FixedUpdate()
@@ -74,6 +81,9 @@ public class Bullet : MonoBehaviour
         yield return new WaitForSeconds(_lifetimeInSeconds);
 
         _canMove = false;
+
+        _audioManager.PlayExplosionSFX();
+
         _animator.SetTrigger("Explode");
     }
 
@@ -90,16 +100,15 @@ public class Bullet : MonoBehaviour
                 ship.TakeDamage(_damage);
             }
 
+            _audioManager.PlayExplosionSFX();
+
             _animator.SetTrigger("Explode");
         }
     }
 
     private void DestroyBullet()
     {
-        foreach(Transform child in transform)
-        {
-            child.gameObject.SetActive(false);
-        }
+        _explosion.SetActive(false);
 
         _isPlayerShooting = false;
 
