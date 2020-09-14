@@ -1,20 +1,22 @@
 # Top-Down Shooter
 
 ## Controls
-###### Move
-W
-Up Arrow
+##### Move
+W <br>
+Up Arrow 
 
-###### Rotate
-A and D
-Left Arrow and Right Arrow
+##### Rotate
+A and D <br>
+Left Arrow and Right Arrow 
 
-###### Shoot
-Left: Q
-Right: E
+
+##### Shoot
+Left: Q <br>
+Right: E <br>
 Front: Space
 
+
 ## Assets
-Kenney Pirate Pack
-Kenney UI Pack: RPG Expansion
+Kenney Pirate Pack <br>
+Kenney UI Pack: RPG Expansion <br>
 Map created with Tiled
