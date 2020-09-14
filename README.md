@@ -18,5 +18,9 @@ Front: Space
 
 ## Assets
 Kenney Pirate Pack <br>
-Kenney UI Pack: RPG Expansion <br>
+Kenney UI Pack: RPG Expansion
+
+Music: FC Pirate Music Pack [Lite] from Unity Asset Store<br>
+Explosion SFX: Free Sound Effects Pack from Unity Asset Store
+
 Map created with Tiled
