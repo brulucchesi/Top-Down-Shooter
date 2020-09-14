@@ -24,6 +24,9 @@ public class EnemySpawnManager : MonoBehaviour
     [SerializeField]
     private int _maxOfEnemiesOnScreen = 5;
 
+    [SerializeField]
+    private int _numberOfTriesToGetPosition = 10;
+
     private bool _canSpawn = false;
 
     private PoolManager _poolManager;
@@ -113,7 +116,7 @@ public class EnemySpawnManager : MonoBehaviour
     {
         pos = new Vector3(0, 0, 0);
 
-        if (triesCount > 10)
+        if (triesCount > _numberOfTriesToGetPosition)
         {
             return false;
         }
